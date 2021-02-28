@@ -1,61 +1,48 @@
-# import datetime
+import datetime as dt
 
 
 print("It's project help you manage what you did, do and want to do.")
 
 
-completed_arr = []
-process_arr = []
-desire_arr = []
-
-
 class StatusObject:
-    def __init__(self, arr):
-        self.arr = arr
-        arr.append(self)
-
-    def delete(self):
-        self.arr.remove(self)
+    def __init__(self):
+        print(f'Add object {self}')
 
 
 class Completed(StatusObject):
-    def __init__(self, data, status, arr):
-        super(Completed, self).__init__(arr)
-        #  self.data_time = datetime.datetime(*data)
-        self.data_time = data
-        self.status = status
+    def __init__(self, time_to_end, mood):
+        super(Completed, self).__init__()
+        self.time = time_to_end
+        self.mood = mood
 
 
 class Process(StatusObject):
-    def __init__(self, arr):
-        super(Process, self).__init__(arr)
-
-    def do_completed(self, data, status, arr):
-        Completed(data, status, arr)
+    def __init__(self, time_to_start, process_progress=0):
+        super(Process, self).__init__()
+        self.time = time_to_start
+        self.process_progress = process_progress
 
 
 class Desire(StatusObject):
-    def __init__(self, step, arr):
-        super(Desire, self).__init__(arr)
+    def __init__(self, step, time_to_add_in_desire):
+        super(Desire, self).__init__()
+        self.time = time_to_add_in_desire
         self.step = step
 
-    def do_process(self, arr):
-        Process(arr)
+
+class Category:
+    def __init__(self, status):
+        self.status = status
 
 
-def test_me():
-    Desire(1, desire_arr)
-    Desire(3, desire_arr)
-    print(desire_arr)
-    for el in desire_arr:
-        el.do_process(process_arr)
-    print(process_arr)
-    for el in process_arr:
-        el.do_completed('today', 'fine', completed_arr)
-    print(completed_arr)
-    for el in completed_arr:
-        print(el)
-        print(el.data_time, el.status)
+class Book(Category):
+    def __init__(self, author, name, status):
+        super().__init__(status)
+        self.author = author
+        self.name = name
+        self.status = status
 
 
-test_me()
+book = Book('Lawrence', 'python', Desire(10, dt.datetime.now()))
+print(book.name, book.status.time)
+
